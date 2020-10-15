@@ -5,6 +5,7 @@ import AboutPage from "./pages/AboutPage";
 import HomePage from "./pages/HomePage";
 import NavBar from "./components/NavBar";
 import "./App.css";
+import MovieDetails from "./pages/MovieDetails";
 
 // const findMovies = (searchFor) => {
 //   console.log("Searching in parent for:", searchFor);
@@ -24,7 +25,12 @@ function App() {
           path="/discover"
           component={() => <DiscoverMoviesPage findMovies={findMovies} />}
         /> */}
-        <Route exact path="/discover" component={DiscoverMoviesPage} />
+        <Route
+          exact
+          path="/discover/:searchtext?"
+          component={DiscoverMoviesPage}
+        />
+        <Route exact path="/movies/:imdbID" component={MovieDetails} />
         <Route exact path="/about" component={AboutPage} />
         <Route exact path="/" component={HomePage} />
         <Route path="/" component={NotFound} />

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink, useHistory } from "react-router-dom";
 import axios from "axios";
 import "../style/global.scss";
 import "./DiscoverMoviesPage.scss";
@@ -10,6 +11,7 @@ export default function DiscoverMoviesPage() {
   const [searchState, setSearchState] = useState("Idle");
   const [searchResult, setSearchResult] = useState("");
   // console.log("searchText:", searchText);
+  const history = useHistory();
 
   const searchMovies = (event) => {
     // console.log("What is event?", event);
@@ -52,11 +54,14 @@ export default function DiscoverMoviesPage() {
 
   // const searchResultArray = [...searchResult];
   const showResults = [...searchResult].map((result) => {
+    // if you want to map over an array stored in useState you need to copy it with the spread operator
     const { Poster, Title, Year, imdbID } = result;
     return (
       <div className="MovieCard col d-flex align-items-stretch" key={imdbID}>
         <div className="card-body">
-          <p className="Title card-title">Title: {Title}</p>
+          <NavLink to={`/movies/${imdbID}`}>
+            <p className="Title card-title">Title: {Title}</p>
+          </NavLink>
           <p className="Year card-text">Released: {Year}</p>
           <p className="id card-text">ID: {imdbID}</p>
           <p className="Poster">
