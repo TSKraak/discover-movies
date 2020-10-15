@@ -10,6 +10,10 @@ import "./App.css";
 //   console.log("Searching in parent for:", searchFor);
 // };
 
+const NotFound = () => {
+  return <h3>Oops, sorry. Page doesn't exist.</h3>;
+};
+
 function App() {
   return (
     <div className="App">
@@ -20,9 +24,10 @@ function App() {
           path="/discover"
           component={() => <DiscoverMoviesPage findMovies={findMovies} />}
         /> */}
-        <Route path="/discover" component={DiscoverMoviesPage} />
-        <Route path="/about" component={AboutPage} />
-        <Route path="/" component={HomePage} />
+        <Route exact path="/discover" component={DiscoverMoviesPage} />
+        <Route exact path="/about" component={AboutPage} />
+        <Route exact path="/" component={HomePage} />
+        <Route path="/" component={NotFound} />
       </Switch>
     </div>
   );

@@ -54,14 +54,11 @@ export default function DiscoverMoviesPage() {
   const showResults = [...searchResult].map((result) => {
     const { Poster, Title, Year, imdbID } = result;
     return (
-      <div
-        className="MovieCard col-md-3 d-flex align-items-stretch mb-2"
-        key={imdbID}
-      >
+      <div className="MovieCard col d-flex align-items-stretch" key={imdbID}>
         <div className="card-body">
           <p className="Title card-title">Title: {Title}</p>
           <p className="Year card-text">Released: {Year}</p>
-          <p className="ID card-text">ID: {imdbID}</p>
+          <p className="id card-text">ID: {imdbID}</p>
           <p className="Poster">
             <img src={Poster} alt={Title} />
           </p>
