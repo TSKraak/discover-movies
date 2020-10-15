@@ -13,12 +13,15 @@ export default function DiscoverMoviesPage() {
     setSearchText(event.target.value);
   };
 
-  const search = (text) => {
-    // If App.js would fetch the data you would use this function
-    // console.log("What is text?", text);
-    // findMovies(text);
-    localStorage.removeItem("name");
-    setSearchText("");
+  // const search = (text) => { // If App.js would fetch the data you would use this function
+  //   // console.log("What is text?", text);
+  //   findMovies(text);
+  //   localStorage.removeItem("name");
+  //   setSearchText("");
+  // };
+
+  const search = async () => {
+    const url = "http://www.omdbapi.com/?i=tt3896198&apikey=c9cf54c2";
   };
 
   return (
