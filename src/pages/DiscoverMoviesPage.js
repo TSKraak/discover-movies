@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "../style/global.scss";
+import "./DiscoverMoviesPage.scss";
 
 export default function DiscoverMoviesPage() {
   const [searchText, setSearchText] = useState(
@@ -40,7 +42,7 @@ export default function DiscoverMoviesPage() {
     if (fetchResult.data.Search) {
       localStorage.removeItem("search");
       setSearchText("");
-      setSearchState("Done:");
+      setSearchState("Done");
       setSearchResult(fetchResult.data.Search);
     } else {
       setSearchState("No results");
@@ -52,11 +54,14 @@ export default function DiscoverMoviesPage() {
   const showResults = [...searchResult].map((result) => {
     const { Poster, Title, Year, imdbID } = result;
     return (
-      <div key={imdbID}>
-        <div className="MovieCard">
-          <p className="Title">Title: {Title}</p>
-          <p className="Year">Year: {Year}</p>
-          <p className="ID">ID: {imdbID}</p>
+      <div
+        className="MovieCard col-md-3 d-flex align-items-stretch mb-2"
+        key={imdbID}
+      >
+        <div className="card-body">
+          <p className="Title card-title">Title: {Title}</p>
+          <p className="Year card-text">Released: {Year}</p>
+          <p className="ID card-text">ID: {imdbID}</p>
           <p className="Poster">
             <img src={Poster} alt={Title} />
           </p>
@@ -82,8 +87,8 @@ export default function DiscoverMoviesPage() {
           onClick={search}
         />
       </form>
-      {searchState}
-      {showResults}
+      <p className="search-status">Status: {searchState}</p>
+      <div className="card-deck m-2">{showResults}</div>
 
       {/* <input
         type="text"
