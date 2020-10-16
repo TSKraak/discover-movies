@@ -1,17 +1,20 @@
-import React, { useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import "../style/global.scss";
 import "./DiscoverMoviesPage.scss";
 
 export default function DiscoverMoviesPage() {
+  const params = useParams();
+  const history = useHistory();
   const [searchText, setSearchText] = useState(
-    localStorage.getItem("search") || ""
+    localStorage.getItem("search") || params.searchtext || ""
   );
   const [searchState, setSearchState] = useState("Idle");
   const [searchResult, setSearchResult] = useState("");
-  // console.log("searchText:", searchText);
-  const history = useHistory();
+  console.log("searchText:", searchText);
+
+  console.log("Is params something in the beginning?", params);
 
   const searchMovies = (event) => {
     // console.log("What is event?", event);
@@ -20,37 +23,43 @@ export default function DiscoverMoviesPage() {
     setSearchText(event.target.value);
   };
 
-  // const search = (text) => { // If App.js would fetch the data and perform the search you would use this function
-  //   // console.log("What is text?", text);
-  //   findMovies(text);
-  //   localStorage.removeItem("name");
-  //   setSearchText("");
-  // };
-
-  const search = async (event) => {
-    // console.log("Searching for:", searchText);
-
-    event.preventDefault(); // in case of using a <form> this is needed to prevent refreshing
-    setSearchState("Searching..");
-    // Best practice: encode the string so that special characters
-    //  like '&' and '?' don't accidentally mess up the URL
-    const queryParam = encodeURIComponent(searchText);
-    const url = `https://omdbapi.com/?apikey=c9cf54c2&s=${queryParam}`;
-
-    const fetchResult = await axios.get(url);
-
-    // console.log("What is the result?", fetchResult.data);
-
-    if (fetchResult.data.Search) {
-      localStorage.removeItem("search");
-      setSearchText("");
-      setSearchState("Done");
-      setSearchResult(fetchResult.data.Search);
-    } else {
-      setSearchState("No results");
+  useEffect(() => {
+    if (searchText === "") {
+      // if searchText is empty string, stop executing the useEffect so it won't run the first time the page is rendered
+      return;
     }
+    async function searchForMovie() {
+      // console.log("Searching for:", searchText);
+
+      // event.preventDefault(); // in case of using a <form> this is needed to prevent refreshing
+      setSearchState("Searching..");
+      // Best practice: encode the string so that special characters
+      //  like '&' and '?' don't accidentally mess up the URL
+      const queryParam = encodeURIComponent(searchText);
+      const url = `https://omdbapi.com/?apikey=c9cf54c2&s=${queryParam}`;
+
+      const fetchResult = await axios.get(url);
+
+      // console.log("What is the result?", fetchResult.data);
+
+      if (fetchResult.data.Search) {
+        localStorage.removeItem("search");
+        setSearchText("");
+        setSearchState("Done");
+        setSearchResult(fetchResult.data.Search);
+      } else {
+        setSearchState("No results");
+      }
+    }
+    searchForMovie();
+  }, [params]);
+
+  const navigateToSearch = () => {
+    const routeParam = encodeURIComponent(searchText);
+    history.push(`/discover/${routeParam}`); // to push the parameter to params which is assigned useHistory
+    setSearchText(routeParam);
   };
-  // console.log(searchResult);
+  // console.log("history is?", history);
 
   // const searchResultArray = [...searchResult];
   const showResults = [...searchResult].map((result) => {
@@ -60,7 +69,7 @@ export default function DiscoverMoviesPage() {
       <div className="MovieCard col d-flex align-items-stretch" key={imdbID}>
         <div className="card-body">
           <NavLink to={`/movies/${imdbID}`}>
-            <p className="Title card-title">Title: {Title}</p>
+            <p className="Title card-title">{Title}</p>
           </NavLink>
           <p className="Year card-text">Released: {Year}</p>
           <p className="id card-text">ID: {imdbID}</p>
@@ -86,7 +95,7 @@ export default function DiscoverMoviesPage() {
           className="search-button"
           type="submit"
           value="Search"
-          onClick={search}
+          onClick={navigateToSearch}
         />
       </form>
       <p className="search-status">Status: {searchState}</p>

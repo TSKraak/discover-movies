@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import "./MovieDetails.scss";
 
 export default function MovieDetails() {
   const [movieDetails, setMovieDetails] = useState({
@@ -8,6 +9,7 @@ export default function MovieDetails() {
     data: null,
   });
   const params = useParams();
+  // console.log("What is params?:", params);
 
   useEffect(() => {
     async function fetchMovieById() {
@@ -23,28 +25,59 @@ export default function MovieDetails() {
     return <h5>{movieDetails.status}</h5>;
   }
 
-  // console.log("What is params?:", params);
-  const { Title, Plot, Actors, Genre, Runtime, Year } = movieDetails.data;
-  const { imdbRating } = movieDetails.data;
+  const {
+    Title,
+    Plot,
+    Actors,
+    Genre,
+    Runtime,
+    Year,
+    Poster,
+    imdbRating,
+  } = movieDetails.data;
   // console.log("imdbRating?", imdbRating);
 
   return (
-    <div>
-      <h2>{Title}</h2>
-      <h5>Rating: {imdbRating}</h5>
-      <br></br>
-      <p>Summary:</p>
-      <p>{Plot}</p>
-      <p>
-        Details: <br></br>
-        Genre: {Genre}
-        <br></br>
-        Runtime: {Runtime}
-        <br></br>
-        Released: {Year}
-        <br></br>
-        Actors: {Actors}
-      </p>
+    <div className="MoviePage">
+      <div className="Content">
+        <h1 className="Title">{Title}</h1>
+        <p className="Info">
+          Summary:
+          <br />
+          {Plot}
+          <br></br>
+          <br></br>
+          Rating: {imdbRating}
+          <br></br>
+          <br></br>
+          Genre: {Genre}
+          <br></br>
+          Runtime: {Runtime}
+          <br></br>
+          Released: {Year}
+          <br></br>
+          Actors: {Actors}
+        </p>
+      </div>
+      <img className="Poster" src={Poster} alt="Poster" />
     </div>
   );
 }
+
+// <div>
+// <h2>{Title}</h2>
+// <h5>Rating: {imdbRating}</h5>
+// <br></br>
+// <p>Summary:</p>
+// <p>{Plot}</p>
+// <p>
+//   Details: <br></br>
+//   Genre: {Genre}
+//   <br></br>
+//   Runtime: {Runtime}
+//   <br></br>
+//   Released: {Year}
+//   <br></br>
+//   Actors: {Actors}
+// </p>
+// </div>

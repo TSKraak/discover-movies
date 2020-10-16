@@ -1,0 +1,43 @@
+.MoviePage {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 80%;
+  // background-color: yellow;
+}
+
+.Content {
+  margin: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  order: 4;
+  float: right;
+  align-content: flex-start;
+  // background-color: purple;
+}
+
+.Title {
+  margin-top: 1rem;
+  margin-left: 1rem;
+  order: 2;
+  height: 3rem;
+  // background-color: green;
+}
+
+.Info {
+  margin-left: 1rem;
+  order: 3;
+  // background-color: red;
+}
+
+.Poster {
+  width: 20rem;
+  height: auto;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  order: 1;
+  float: left;
+
+  // background-color: grey;
+}
