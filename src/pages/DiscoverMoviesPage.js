@@ -7,19 +7,17 @@ import "./DiscoverMoviesPage.scss";
 export default function DiscoverMoviesPage() {
   const params = useParams();
   const history = useHistory();
-  const [searchText, setSearchText] = useState(
-    localStorage.getItem("search") || params.searchtext || ""
-  );
+  const [searchText, setSearchText] = useState(params.searchtext || "");
   const [searchState, setSearchState] = useState("Idle");
   const [searchResult, setSearchResult] = useState("");
   console.log("searchText:", searchText);
 
-  console.log("Is params something in the beginning?", params);
+  console.log("WHAT IS PARAMS?", params);
 
   const searchMovies = (event) => {
     // console.log("What is event?", event);
     event.preventDefault(); // in case of using a <form> this is needed to prevent refreshing
-    localStorage.setItem("search", event.target.value);
+    // localStorage.setItem("search", event.target.value);
     setSearchText(event.target.value);
   };
 
@@ -43,8 +41,8 @@ export default function DiscoverMoviesPage() {
       // console.log("What is the result?", fetchResult.data);
 
       if (fetchResult.data.Search) {
-        localStorage.removeItem("search");
-        setSearchText("");
+        // localStorage.removeItem("search");
+
         setSearchState("Done");
         setSearchResult(fetchResult.data.Search);
       } else {
@@ -56,7 +54,7 @@ export default function DiscoverMoviesPage() {
 
   const navigateToSearch = () => {
     const routeParam = encodeURIComponent(searchText);
-    history.push(`/discover/${routeParam}`); // to push the parameter to params which is assigned useHistory
+    history.push(`/discover/${routeParam}`); // to push the search term to params which is assigned useHistory and shows up after the / in url
     setSearchText(routeParam);
   };
   // console.log("history is?", history);
@@ -65,6 +63,7 @@ export default function DiscoverMoviesPage() {
   const showResults = [...searchResult].map((result) => {
     // if you want to map over an array stored in useState you need to copy it with the spread operator
     const { Poster, Title, Year, imdbID } = result;
+
     return (
       <div className="MovieCard col d-flex align-items-stretch" key={imdbID}>
         <div className="card-body">
