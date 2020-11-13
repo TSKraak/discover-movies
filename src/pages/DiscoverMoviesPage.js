@@ -12,7 +12,7 @@ export default function DiscoverMoviesPage() {
   const [searchResult, setSearchResult] = useState("");
   // console.log("searchText:", searchText);
 
-  // console.log("WHAT IS PARAMS?", params);
+  console.log("WHAT IS PARAMS?", params);
 
   const searchMovies = (event) => {
     // console.log("What is event?", event);
